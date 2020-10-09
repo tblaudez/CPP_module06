@@ -6,12 +6,12 @@
 /*   By: tblaudez <tblaudez@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/02 11:25:23 by tblaudez      #+#    #+#                 */
-/*   Updated: 2020/10/02 11:45:02 by tblaudez      ########   odam.nl         */
+/*   Updated: 2020/10/09 15:02:02 by tblaudez      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include <cmath>
+#include <iostream> // cout
+#include <cctype> // isprint
 
 
 void	print_char(char const& c) {
@@ -25,17 +25,18 @@ void	print_char(char const& c) {
 
 void	print_char(int const& i) {
 
-	char c = static_cast<char>(i);
+	char const c = static_cast<char const>(i);
 	print_char(c);
 }
 
 void	print_char(double const& d) {
 
+	// C99 macros
 	if (isinf(d) || isnan(d)) {
 		std::cout << "char: impossible" << std::endl;
 	}
 	else {
-		char c = static_cast<char>(d);
+		char const c = static_cast<char const>(d);
 		print_char(c);
 	}
 }
@@ -46,7 +47,7 @@ void	print_char(float const& f) {
 		std::cout << "char: impossible" << std::endl;
 	}
 	else {
-		char c = static_cast<char>(f);
+		char const c = static_cast<char const>(f);
 		print_char(c);
 	}
 }

@@ -6,24 +6,23 @@
 /*   By: tblaudez <tblaudez@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/02 11:57:03 by tblaudez      #+#    #+#                 */
-/*   Updated: 2020/10/02 14:07:43 by tblaudez      ########   odam.nl         */
+/*   Updated: 2020/10/09 15:41:37 by tblaudez      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cstdlib>
-#include <ctime>
-#include <string>
-#include <iostream>
-#include <cstring>
+#include <cstdlib> // srand, rand
+#include <ctime> // time
+#include <iostream> // cout, string
+#include <cstring> // memcpy
 
 struct Data { std::string s1; int n; std::string s2; };
 
-void*	serialize(void) {
+void*	serialize() {
 
 	char*			data = new char[20]();
 	char const* 	alphanum = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-	for (int i=0; i<8; i++) {
+	for (int i=0; i < 8; i++) {
 		data[i] = alphanum[rand() % 62];
 		data[12+i] = alphanum[rand() % 62];
 	}
