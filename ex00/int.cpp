@@ -6,11 +6,12 @@
 /*   By: tblaudez <tblaudez@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/02 11:32:01 by tblaudez      #+#    #+#                 */
-/*   Updated: 2020/10/09 15:11:07 by tblaudez      ########   odam.nl         */
+/*   Updated: 2020/11/26 15:24:18 by tblaudez      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream> // cout
+#include <cmath> // isinf, isnan
 
 
 void	print_int(int const& i) {

@@ -12,6 +12,7 @@
 
 #include <iostream> // cout
 #include <cctype> // isprint
+#include <cmath> // isinf, isnan
 
 
 void	print_char(char const& c) {
