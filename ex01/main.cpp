@@ -6,7 +6,7 @@
 /*   By: tblaudez <tblaudez@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/02 11:57:03 by tblaudez      #+#    #+#                 */
-/*   Updated: 2020/10/09 15:41:37 by tblaudez      ########   odam.nl         */
+/*   Updated: 2021/01/21 17:45:19 by tblaudez      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,42 +19,45 @@ struct Data { std::string s1; int n; std::string s2; };
 
 void*	serialize() {
 
-	char*			data = new char[20]();
-	char const* 	alphanum = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	const char	alphanum[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	const int	n = arc4random();
+	char*		data = new char[2 * sizeof(std::string) + sizeof(int)]();
+	std::string	s1, s2;
+
 
 	for (int i=0; i < 8; i++) {
-		data[i] = alphanum[rand() % 62];
-		data[12+i] = alphanum[rand() % 62];
+		s1 += alphanum[arc4random_uniform(sizeof(alphanum))];
+		s2 += alphanum[arc4random_uniform(sizeof(alphanum))];
 	}
 
-	int n = rand();
-	memcpy(data+8, &n, sizeof(n));
+	memcpy(data, &s1, sizeof(s1));
+	memcpy(data + sizeof(s1), &n, sizeof(n));
+	memcpy(data + sizeof(s1) + sizeof(n), &s2, sizeof(s2));
 
-	std::cout << "Serialized bytes 1: " << std::cout.write(data, 8) << std::endl;
+
+	std::cout << "Serialized bytes 1: " << s1 << std::endl;
 	std::cout << "Serialized integer: " << n << std::endl;
-	std::cout << "Serialized bytes 2: "<< std::cout.write(data+12, 8) << std::endl;
+	std::cout << "Serialized bytes 2: "<< s2 << std::endl;
 
-	return reinterpret_cast<void*>(data);
+	return data;
 }
 
 Data*	deserialize(void* raw) {
 
-	Data*	data = new Data;
+	Data*	data = new Data();
 	char*	raw_data = reinterpret_cast<char*>(raw);
 
-	data->s1 = std::string(raw_data, 8);
-	memcpy(&data->n, raw_data+8, sizeof(int));
-	data->s2 = std::string(raw_data+12, 8);
+	data->s1 = *reinterpret_cast<std::string*>(raw_data);
+	data->n = *reinterpret_cast<int*>(raw_data + sizeof(std::string));
+	data->s2 = *reinterpret_cast<std::string*>(raw_data + sizeof(std::string) + sizeof(int));
 
 	return data;
 }
 
 int	main(void) {
 
-	srand(time(0));
-
-	void* data = serialize();
-	Data* clean_data = deserialize(data);
+	void*	data = serialize();
+	Data*	clean_data = deserialize(data);
 
 	std::cout << "Data->s1: " << clean_data->s1 << std::endl;
 	std::cout << "Data->n: " << clean_data->n << std::endl;
